@@ -16,6 +16,11 @@
             }
         }
 
+        public Bit(Bit incomingBit)
+        {
+            data = incomingBit.GetValue();
+        }
+
         public Bit And(Bit other)
         {
             if (data == 1)
