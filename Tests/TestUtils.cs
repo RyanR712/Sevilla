@@ -8,7 +8,7 @@ namespace Sevilla.Tests
         {
             if (!obj.Equals(toBe))
             {
-                throw new Exception("Test failed. Object " + obj + " is not the same as " + toBe + ".");
+                throw new Exception("Test failed. Object " + obj + " is not the same as the expected Object " + toBe + ".");
             }
         }
 

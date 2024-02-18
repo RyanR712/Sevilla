@@ -2,12 +2,20 @@
 {
     public class Longword : LongwordInterface
     {
+        const int MAX_SIGNED_INTEGER_WORD_SIZE = 2147483647;
         const int WORD_SIZE = 32;
         private Bit[] word;
 
         public Longword()
         {
             word = new Bit[WORD_SIZE];
+        }
+
+        public Longword(int wordValue)
+        {
+            word = new Bit[WORD_SIZE];
+
+            Set(wordValue);
         }
 
         public Longword(string wordString)
@@ -27,17 +35,13 @@
 
         public Longword(Longword otherWord)
         {
-            word = otherWord.GetWord();
-        }
-
-        public Bit[] GetWord()
-        {
-            return word;
+            word = new Bit[WORD_SIZE];
+            Copy(otherWord);
         }
 
         public Bit GetBit(int i)
         {
-            checkLongwordIndices(i);
+            CheckLongwordIndices(i);
             return word[i];
         }
 
@@ -51,27 +55,95 @@
 
         public void SetBit(int i, Bit value)
         {
-            checkLongwordIndices(i);
+            CheckLongwordIndices(i);
             word[i] = new Bit(value);
         }
 
         public void Set(int value)
         {
-            //parse an int as a binary
+            bool isDividedByDivisor, isNegative = value < 0;
+
+            word[0] = isNegative ? new Bit(1) : new Bit(0);
+
+            if (isNegative)
+            {
+                value += 1;
+            }
+
+            value = Math.Abs(value);
+
+            int currentDivisor = 0;
+
+            for (int i = 1; i < word.Length; i++)
+            {
+                currentDivisor = (int)Math.Pow(2, WORD_SIZE - i - 1);
+
+                isDividedByDivisor = value / currentDivisor != 0;
+
+                word[i] = determineBitToAdd(isDividedByDivisor, isNegative);
+
+                if (isDividedByDivisor)
+                {
+                    value -= currentDivisor;
+                }
+            }
+        }
+
+        private Bit determineBitToAdd(bool isDividedByDivisor, bool isNegative)
+        {
+            if (isNegative)
+            {
+                if (isDividedByDivisor)
+                {
+                    return new Bit(0);
+                }
+                else
+                {
+                    return new Bit(1);
+                }
+            }   
+            else
+            {
+                if (isDividedByDivisor)
+                {
+                    return new Bit(1);
+                }
+                else
+                {
+                    return new Bit(0);
+                }
+            }   
         }
 
         public int GetSigned()
         {
             int signedBaseTen = 0;
 
-            int multiplier = word[0].GetValue() == 0 ? 1 : -1;
+            bool isNegative = word[0].GetValue() == 1;
 
             for (int i = word.Length - 1; i > 0; i--)
             {
-                signedBaseTen += word[i].GetValue() == 1 ? (int)Math.Pow(2, word.Length - i - 1) : 0;
+                signedBaseTen += determineSignedQuantityToAdd(word[i], i, isNegative);
             }
 
-            return multiplier == 1 ? signedBaseTen : ((int)Math.Pow(2, 31) - signedBaseTen) * multiplier;
+            if (isNegative)
+            {
+                signedBaseTen -= 1;
+            }
+
+            return signedBaseTen;
+        }
+
+        private int determineSignedQuantityToAdd(Bit currentBit, int currentIndex, bool isNegative)
+        {
+            if (isNegative)
+            {
+                return currentBit.GetValue() == 1 ? 0 : (int)Math.Pow(2, WORD_SIZE - currentIndex - 1) * -1;
+            }
+            else
+            {
+                return currentBit.GetValue() == 0 ? 0 : (int)Math.Pow(2, WORD_SIZE - currentIndex - 1);
+            }
         }
 
         public long GetUnsigned()
@@ -136,7 +208,7 @@
 
         public Longword LeftShift(int amount)
         {
-            checkLongwordIndices(amount);
+            CheckLongwordIndices(amount);
             Longword longWord = new Longword();
 
             for (int i = amount; i < word.Length; i++)
@@ -149,7 +221,7 @@
 
         public Longword RightShift(int amount)
         {
-            checkLongwordIndices(amount);
+            CheckLongwordIndices(amount);
             Longword longWord = new Longword();
 
             for (int i = word.Length - amount; i >= 0; i--)
@@ -172,7 +244,7 @@
             return wordString;
         }
 
-        private void checkLongwordIndices(int i)
+        private void CheckLongwordIndices(int i)
         {
             if (i < 0 || i >= WORD_SIZE)
             {

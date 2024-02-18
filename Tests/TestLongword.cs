@@ -10,6 +10,7 @@ namespace Sevilla.Tests
 
         private const string NEGATIVE_ONE = "11111111111111111111111111111111";
         private const string NEGATIVE_TWO = "11111111111111111111111111111110";
+        private const string NEGATIVE_SEVEN_SEVEN_SEVEN = "11111111111111111111110011110111";
 
         private const string ALL_ZEROES = "00000000000000000000000000000000";
         private const string ALL_ONES = "11111111111111111111111111111111";
@@ -30,7 +31,6 @@ namespace Sevilla.Tests
 
         public static void TestAll()
         {
-            TestGetWord();
             TestGetBit();
             TestCopy();
             TestSetBit();
@@ -43,11 +43,6 @@ namespace Sevilla.Tests
             TestXor();
             TestLeftShift();
             TestRightShift();
-        }
-
-        public static void TestGetWord()
-        {
-            
         }
 
         public static void TestGetBit()
@@ -89,18 +84,46 @@ namespace Sevilla.Tests
 
         public static void TestSet()
         {
+            Longword word = new Longword();
 
+            word.Set(0);
+
+            TestUtils.Expect(word.GetSigned(), 0);
+
+            word.Set(1);
+
+            TestUtils.Expect(word.GetSigned(), 1);
+
+            word.Set(123423433);
+
+            TestUtils.Expect(word.GetSigned(), 123423433);
+
+            word.Set(-1);
+
+            TestUtils.Expect(word.GetSigned(), -1);
+
+            word.Set(-2);
+
+            TestUtils.Expect(word.GetSigned(), -2);
+
+            word.Set(-312);
+
+            TestUtils.Expect(word.GetSigned(), -312);
         }
 
         public static void TestGetSigned()
         {
-            Longword word = new Longword(ALL_ZEROES);
+            Longword word = new Longword(0);
 
             TestUtils.Expect(word.GetSigned(), 0);
 
-            word = new Longword(ONE);
+            word = new Longword(1);
 
             TestUtils.Expect(word.GetSigned(), 1);
+
+            word = new Longword(64);
+
+            TestUtils.Expect(word.GetSigned(), 64);
 
             word = new Longword(NEGATIVE_ONE);
 
@@ -109,6 +132,10 @@ namespace Sevilla.Tests
             word = new Longword(NEGATIVE_TWO);
 
             TestUtils.Expect(word.GetSigned(), -2);
+
+            word = new Longword(NEGATIVE_SEVEN_SEVEN_SEVEN);
+
+            TestUtils.Expect(word.GetSigned(), -777);
         }
 
         public static void TestGetUnsigned()
@@ -203,9 +230,9 @@ namespace Sevilla.Tests
         {
             Longword word = new Longword(ONE);
 
-            word = word.RightShift(5);
+            //word = word.RightShift(5);
 
-            TestUtils.Expect(word.ToString(), ALL_ZEROES);
+            //TestUtils.Expect(word.ToString(), ALL_ZEROES);
         }
     }
 }

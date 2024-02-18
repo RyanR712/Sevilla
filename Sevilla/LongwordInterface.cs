@@ -1,5 +1,8 @@
 ﻿namespace Sevilla.Sevilla
 {
+    /**
+     * @author Michael Phipps
+     */
     public interface LongwordInterface
     {
         Bit GetBit(int i);
