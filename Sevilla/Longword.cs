@@ -55,7 +55,14 @@
 
         public void SetBit(int i, Bit value)
         {
-            CheckLongwordIndices(i);
+            try
+            {
+                CheckLongwordIndices(i);
+            }
+            catch (Exception)
+            {
+                return;
+            }
             word[i] = new Bit(value);
         }
 
@@ -209,7 +216,7 @@
         public Longword LeftShift(int amount)
         {
             CheckLongwordIndices(amount);
-            Longword longWord = new Longword();
+            Longword longWord = new Longword(0);
 
             for (int i = amount; i < word.Length; i++)
             {
@@ -222,7 +229,7 @@
         public Longword RightShift(int amount)
         {
             CheckLongwordIndices(amount);
-            Longword longWord = new Longword();
+            Longword longWord = new Longword(0);
 
             for (int i = word.Length - amount; i >= 0; i--)
             {

@@ -223,16 +223,56 @@ namespace Sevilla.Tests
 
         public static void TestLeftShift()
         {
+            Longword word = new Longword(0);
 
+            word.Copy(word.LeftShift(31));
+
+            TestUtils.Expect(word.GetSigned(), 0);
+
+            word.Set(3);
+
+            word.Copy(word.LeftShift(2));
+
+            TestUtils.Expect(word.GetSigned(), 12);
+
+            word.Set(3);
+
+            word.Copy(word.LeftShift(10));
+
+            TestUtils.Expect(word.GetSigned(), 3072);
         }
 
         public static void TestRightShift()
         {
-            Longword word = new Longword(ONE);
+            Longword word = new Longword(0);
 
-            //word = word.RightShift(5);
+            word.Copy(word.RightShift(31));
 
-            //TestUtils.Expect(word.ToString(), ALL_ZEROES);
+            TestUtils.Expect(word.GetSigned(), 0);
+
+            word.Set(32);
+
+            word.Copy(word.RightShift(5));
+
+            TestUtils.Expect(word.GetSigned(), 1);
+
+            word.Set(63);
+
+            word.Copy(word.RightShift(6));
+
+            TestUtils.Expect(word.GetSigned(), 0);
+
+            word.Set(128);
+
+            word.Copy(word.RightShift(1));
+
+            TestUtils.Expect(word.GetSigned(), 64);
+
+            word.Set(127);
+
+            word.Copy(word.RightShift(3));
+
+            TestUtils.Expect(word.GetSigned(), 15);
         }
     }
 }
