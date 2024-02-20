@@ -2,8 +2,8 @@
 {
     public class Longword : LongwordInterface
     {
-        const int MAX_SIGNED_INTEGER_WORD_SIZE = 2147483647;
-        const int WORD_SIZE = 32;
+        private const int MAX_SIGNED_INTEGER_WORD_SIZE = 2147483647;
+        public const int WORD_SIZE = 32;
         private Bit[] word;
 
         public Longword()

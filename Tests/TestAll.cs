@@ -6,6 +6,7 @@
         {
             TestBit.TestAll();
             TestLongword.TestAll();
+            TestRippleAdder.TestAll();
 
             Console.WriteLine("Aye, yer tests passed!");
         }

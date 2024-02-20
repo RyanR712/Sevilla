@@ -66,7 +66,7 @@
                     return new Bit(1);
                 }
             }
-            else if (other.GetValue() == 1)
+            if (other.GetValue() == 1)
             {
                 if (data == 0)
                 {
