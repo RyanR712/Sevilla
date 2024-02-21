@@ -2,6 +2,9 @@
 
 namespace Sevilla.Tests
 {
+    /**
+     * Contains all tests for Sevilla/Longword.cs.
+     */
     public class TestLongword
     {
         private const string ONE = "00000000000000000000000000000001";

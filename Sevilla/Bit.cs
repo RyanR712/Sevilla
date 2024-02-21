@@ -115,6 +115,11 @@
             return data;
         }
 
+        public bool IsOn()
+        {
+            return data == 1;
+        }
+
         override public string ToString()
         {
             return data.ToString();

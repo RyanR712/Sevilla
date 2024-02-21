@@ -2,7 +2,7 @@
 {
     public static class RippleAdder
     {
-        public static Longword add(Longword wordOne, Longword wordTwo)
+        public static Longword Add(Longword wordOne, Longword wordTwo)
         {
             Longword sumWord = new Longword();
 
@@ -10,12 +10,11 @@
 
             for (int i = Longword.WORD_SIZE - 1; i >= 0; i--)
             {
-
                 sumWord.SetBit(i, carryBit.Xor(wordOne.GetBit(i).Xor(wordTwo.GetBit(i))));
 
                 carryBit.Set(wordOne.GetBit(i).And(wordTwo.GetBit(i)).Or(carryBit.And(wordOne.GetBit(i))).Or(carryBit.And(wordTwo.GetBit(i))).GetValue());
 
-                if (wordOne.GetBit(i).And(wordTwo.GetBit(i)).GetValue() == 1 || carryBit.And(wordOne.GetBit(i)).GetValue() == 1 || carryBit.And(wordTwo.GetBit(i)).GetValue() == 1)
+                if (wordOne.GetBit(i).And(wordTwo.GetBit(i)).IsOn() || carryBit.And(wordOne.GetBit(i)).IsOn() || carryBit.And(wordTwo.GetBit(i)).IsOn())
                 {
                     carryBit.Set();
                 }
@@ -28,9 +27,9 @@
             return sumWord;
         }
 
-        public static Longword subtract(Longword wordOne, Longword wordTwo)
+        public static Longword Subtract(Longword wordOne, Longword wordTwo)
         {
-            return add(wordOne, add(wordTwo.Not(), new Longword(1))); 
+            return Add(wordOne, Add(wordTwo.Not(), new Longword(1))); 
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Sevilla.Tests
             TestOr();
             TestNot();
             TestXor();
+            TestIsOn();
             TestToString();
         }
 
@@ -139,6 +140,12 @@ namespace Sevilla.Tests
             bitOne.Set();
 
             TestUtils.Expect(bitOne.Xor(bitTwo).GetValue(), 0);
+        }
+
+        public static void TestIsOn()
+        {
+            TestUtils.Expect(new Bit(0).IsOn(), false);
+            TestUtils.Expect(new Bit(1).IsOn(), true);
         }
 
         public static void TestToString()
