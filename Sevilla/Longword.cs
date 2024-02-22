@@ -9,6 +9,7 @@
         public Longword()
         {
             word = new Bit[WORD_SIZE];
+            Set(0);
         }
 
         public Longword(int wordValue)

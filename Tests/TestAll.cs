@@ -12,6 +12,7 @@
             TestRippleAdder.TestAll();
             TestMultiplier.TestAll();
             TestALU.TestAll();
+            TestMemory.TestAll();
 
             Console.WriteLine("Aye, yer tests passed!");
         }
