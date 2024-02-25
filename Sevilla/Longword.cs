@@ -6,6 +6,14 @@
         public const int WORD_SIZE = 32;
         private Bit[] word;
 
+        public enum instructionChunk
+        {
+            OPCODE,
+            DESTINATION_REGISTER,
+            OPERAND_REGISTER_ONE,
+            OPERAND_REGISTER_TWO,
+        }
+
         public Longword()
         {
             word = new Bit[WORD_SIZE];
@@ -238,6 +246,37 @@
             }
 
             return longWord;
+        }
+
+        public Longword TakeSubwordOfLengthFour(instructionChunk chunk)
+        {
+            int indexToStart = 0;
+
+            switch (chunk)
+            {
+                case instructionChunk.OPCODE:               indexToStart = 0;
+                                                            break;
+                case instructionChunk.DESTINATION_REGISTER: indexToStart = 3;
+                                                            break;
+                case instructionChunk.OPERAND_REGISTER_ONE: indexToStart = 7;
+                                                            break;
+                case instructionChunk.OPERAND_REGISTER_TWO: indexToStart = 11;
+                                                            break;              
+            }
+
+            Longword subword = new Longword(0);
+
+            for (int i = 0; i < 4; i++)
+            {
+                subword.SetBit(Longword.WORD_SIZE/2 - i, word[indexToStart + i]);
+            }
+
+            return subword;
+        }
+
+        public Bit[] TransformToOpCode()
+        {
+            return new Bit[] {word[WORD_SIZE - 4], word[WORD_SIZE - 3], word[WORD_SIZE - 2], word[WORD_SIZE - 1]};
         }
 
         public override string ToString()

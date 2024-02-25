@@ -2,9 +2,9 @@
 {
     public class Memory
     {
+        public const int BITS_PER_BYTE = 8;
         private const int MEMORY_SIZE_IN_BYTES = 1024;
-        private const int BITS_PER_BYTE = 8;
-
+        
         private Bit[] memory;
 
         public Memory()
